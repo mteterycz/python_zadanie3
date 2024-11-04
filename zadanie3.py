@@ -1,24 +1,53 @@
 import argparse
 import os
+import json
+import random
+
 
 def save_to_file(file_name):
-    return
+    
+    data = [
+        {
+            "Model": random.choice(["A", "B", "C"]),
+            "Wynik": random.randint(0, 1000),
+            "Czas": f"{random.randint(0, 1000)}s",
+        }
+    ]
+
+    with open(file_name, "w") as file:
+        json.dump(data, file, indent=1)
+
 
 def read_file(file_name_list):
     return 0
 
+
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--months", type=str, nargs='+',
-                        help="Lista miesięcy (format: m1 m2 ... mn)")
-    parser.add_argument("-d", "--days", type=str, nargs='+',
-                        help="Lista zakresow dni tygodnia (format: d11-d12-...-d1p ... dn1-dn2-...-dnq)")
-    parser.add_argument("-t", "--times", type=str, nargs='*',
-                        help="Pora dnia (format: t1 t2 ...)")
-    parser.add_argument("-c", "--create", action="store_true",
-                        help="Tworzenie plikow (domyslnie odczytywanie)")
+    parser.add_argument(
+        "-m",
+        "--months",
+        type=str,
+        nargs="+",
+        help="Lista miesięcy (format: m1 m2 ... mn)",
+    )
+    parser.add_argument(
+        "-d",
+        "--days",
+        type=str,
+        nargs="+",
+        help="Lista zakresow dni tygodnia (format: d11-d12-...-d1p ... dn1-dn2-...-dnq)",
+    )
+    parser.add_argument(
+        "-t", "--times", type=str, nargs="*", help="Pora dnia (format: t1 t2 ...)"
+    )
+    parser.add_argument(
+        "-c",
+        "--create",
+        action="store_true",
+        help="Tworzenie plikow (domyslnie odczytywanie)",
+    )
     return parser.parse_args()
-
 
 
 def main():
@@ -34,11 +63,11 @@ def main():
         for i in range(len(args.months)):
             days = args.days[i].split("-")
             for day in days:
-                if (t >= len(args.times)):
-                    path = os.path.join(cwd, args.months[i], day, 'r')
+                if t >= len(args.times):
+                    path = os.path.join(cwd, args.months[i], day, "r")
                 else:
                     path = os.path.join(cwd, args.months[i], day, args.times[t])
-                    t+=1
+                    t += 1
 
                 os.makedirs(path, exist_ok=True)
                 save_to_file(os.path.join(path, "Dane.json"))
@@ -52,11 +81,13 @@ def main():
         for i in range(len(args.months)):
             days = args.days[i].split("-")
             for day in days:
-                if (t >= len(args.times)):
-                    path = os.path.join(cwd, args.months[i], day, 'r', "Dane.json")
+                if t >= len(args.times):
+                    path = os.path.join(cwd, args.months[i], day, "r", "Dane.json")
                 else:
-                    path = os.path.join(cwd, args.months[i], day, args.times[t], "Dane.json")
-                t+=1
+                    path = os.path.join(
+                        cwd, args.months[i], day, args.times[t], "Dane.json"
+                    )
+                t += 1
                 files.append(path)
 
         sum = read_file(files)
