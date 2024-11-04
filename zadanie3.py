@@ -33,25 +33,28 @@ def read_file(file_name_list):
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-m",
-        "--months",
+        "-m", "--months",
         type=str,
         nargs="+",
+        required=True,
         help="Lista miesięcy (format: m1 m2 ... mn)",
     )
     parser.add_argument(
-        "-d",
-        "--days",
+        "-d", "--days",
         type=str,
         nargs="+",
-        help="Lista zakresow dni tygodnia (format: d11-d12-...-d1p ... dn1-dn2-...-dnq)",
+        required=True,
+        help="Lista zakresow dni tygodnia "
+             "(format: d11-d12-...-d1p ... dn1-dn2-...-dnq)",
     )
     parser.add_argument(
-        "-t", "--times", type=str, nargs="*", help="Pora dnia (format: t1 t2 ...)"
+        "-t", "--times",
+        type=str,
+        nargs="*",
+        help="Pora dnia (format: t1 t2 ...)"
     )
     parser.add_argument(
-        "-c",
-        "--create",
+        "-c", "--create",
         action="store_true",
         help="Tworzenie plikow (domyslnie odczytywanie)",
     )
