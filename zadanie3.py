@@ -19,7 +19,15 @@ def save_to_file(file_name):
 
 
 def read_file(file_name_list):
-    return 0
+    
+    sum = 0
+
+    for file_name in file_name_list:
+        with open(file_name, "r") as fh:
+            data = json.load(fh)
+            for object in data:
+                sum += int(object["Czas"][:-1])
+    return sum
 
 
 def parse_arguments():
